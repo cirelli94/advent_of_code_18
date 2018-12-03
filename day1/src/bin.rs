@@ -1,18 +1,13 @@
 extern crate mylib;
 
 use mylib::*;
-use std::env;
-use std::fs;
 
-pub fn main() {
-    let path = env::current_dir().unwrap();
-    println!("The current directory is {}", path.display());
+const PUZZLE: &str = include_str!("../data/input.txt");
 
-    let input = fs::read_to_string("./data/input.txt").expect("Unable to read file");
+fn main() {
+    println!("Calculated frequency is: {}", calculate_frequency(PUZZLE));
 
-    println!("Calculated frequency is: {}", calculate_frequency(&input));
-
-    match find_twice_frequency(&input) {
+    match find_twice_frequency(PUZZLE) {
         Some(x) => println!("First frequency my device reaches twice: {}", x),
         None => println!("No frequency reached twice."),
     }

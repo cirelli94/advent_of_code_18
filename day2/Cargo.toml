@@ -1,6 +1,14 @@
 [package]
-name = "day2"
+name = "day1"
 version = "0.1.0"
 authors = ["Fabrizio Cirelli <cirelli94@gmail.com>"]
+
+[lib]
+name = "mylib"
+path = "src/lib.rs"
+
+[[bin]]
+name = "mybin"
+path = "src/bin.rs"
 
 [dependencies]
