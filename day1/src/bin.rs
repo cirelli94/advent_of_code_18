@@ -11,4 +11,9 @@ pub fn main() {
     let input = fs::read_to_string("./data/input.txt").expect("Unable to read file");
 
     println!("Calculated frequency is: {}", calculate_frequency(&input));
+
+    match find_twice_frequency(&input) {
+        Some(x) => println!("First frequency my device reaches twice: {}", x),
+        None => println!("No frequency reached twice."),
+    }
 }
