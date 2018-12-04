@@ -1,35 +1,56 @@
-use std::collections::HashSet;
+use std::collections::BTreeMap;
 
-pub fn calculate_frequency(data: &str) -> i32 {
-    let mut num = 0i32;
+pub fn count_letters(str: &str) -> (usize, usize) {
+    let mut map = BTreeMap::new();
 
-    for line in data.lines() {
-        match i32::from_str_radix(line.trim(), 10) {
-            Ok(x) => num += x,
-            _ => (),
+    for c in str.chars() {
+        if !map.contains_key(&c) {
+            map.insert(c, 1);
+            continue;
+        }
+
+        if let Some(x) = map.get_mut(&c) {
+            *x = *x + 1;
         }
     }
 
-    num
+    let mut x = 0;
+    let mut y = 0;
+
+    if map.iter().any(|(_, t)| *t == 2) {
+        x = 1;
+    }
+    if map.iter().any(|(_, t)| *t == 3) {
+        y = 1;
+    }
+
+    (x, y)
 }
 
-pub fn find_twice_frequency(data: &str) -> Option<i32> {
-    let mut num = 0i32;
-    let mut values = HashSet::new();
+// Return true if only on charater is different between the two strings
+pub fn ids_prototypes(str1: &str, str2: &str) -> bool {
+    // if str1.len() != str2.len() {
+    //     return false;
+    // }
 
-    loop {
-        for line in data.lines() {
-            match i32::from_str_radix(line.trim(), 10) {
-                Ok(x) => {
-                    num += x;
-                    if !values.contains(&num) {
-                        values.insert(num);
-                    } else {
-                        return Some(num);
-                    }
-                }
-                _ => (),
-            }
-        }
-    }
+    // let mut chars2 = str2.chars();
+
+    // let mut errors = 0;
+
+    // for c in str1.chars() {
+    //     if c != chars2.next().unwrap() {
+    //         errors += 1;
+
+    //         if errors > 1 {
+    //             return false;
+    //         }
+    //     }
+    // }
+
+    // true
+    str1.chars()
+        .zip(str2.chars())
+        .filter(|(a, b)| a != b)
+        .count()
+        == 1
 }

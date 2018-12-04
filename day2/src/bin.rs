@@ -1,19 +1,39 @@
 extern crate mylib;
 
 use mylib::*;
-use std::env;
-use std::fs;
+
+const INPUT: &str = include_str!("../data/input.txt");
 
 pub fn main() {
-    let path = env::current_dir().unwrap();
-    println!("The current directory is {}", path.display());
+    // part 1
+    let result = INPUT
+        .lines()
+        .map(|l| count_letters(l))
+        .fold((0usize, 0usize), |acc, (two, three)| {
+            (acc.0 + two, acc.1 + three)
+        });
 
-    let input = fs::read_to_string("./data/input.txt").expect("Unable to read file");
+    // println!("{:?}", result);
+    println!("{}", result.0 * result.1);
 
-    println!("Calculated frequency is: {}", calculate_frequency(&input));
+    // part 2
+    let lines: Vec<String> = INPUT.lines().map(|l| l.into()).collect();
 
-    match find_twice_frequency(&input) {
-        Some(x) => println!("First frequency my device reaches twice: {}", x),
-        None => println!("No frequency reached twice."),
+    for (i, id) in lines.iter().enumerate() {
+        for id2 in lines.iter().skip(i + 1) {
+            if ids_prototypes(id, id2) {
+                // println!("{}", id);
+                // println!("{}", id2);
+
+                println!(
+                    "{}",
+                    id.chars()
+                        .zip(id2.chars())
+                        .filter(|(a, b)| a == b)
+                        .map(|(a, _)| a)
+                        .collect::<String>()
+                );
+            }
+        }
     }
 }
